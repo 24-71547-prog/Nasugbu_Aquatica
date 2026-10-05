@@ -31,6 +31,7 @@ const appData = {
   ]
 };
 
+// Returns a styled badge HTML string based on a status label.
 const statusBadge = (status) => {
   const map = {
     "In Stock": "status-available",
@@ -48,6 +49,7 @@ const statusBadge = (status) => {
   return `<span class="badge badge-soft ${map[status] || "status-available"}">${status}</span>`;
 };
 
+// Marks the current page link as active in the sidebar navigation.
 function setActiveNav() {
   const page = document.body.dataset.page;
   document.querySelectorAll("[data-nav]").forEach((link) => {
@@ -55,6 +57,7 @@ function setActiveNav() {
   });
 }
 
+// Handles mobile sidebar open/close behavior and outside-click dismissal.
 function setupSidebarToggle() {
   const sidebar = document.getElementById("appSidebar");
   const openBtn = document.getElementById("sidebarToggle");
@@ -68,11 +71,13 @@ function setupSidebarToggle() {
   });
 }
 
+// Updates all stock alert counter badges in the UI.
 function setupNotificationBadge() {
   const count = appData.stockAlerts.length;
   document.querySelectorAll(".stock-alert-count").forEach((n) => (n.textContent = count));
 }
 
+// Renders inventory rows with search and filter support.
 function renderInventoryTable() {
   const tbody = document.getElementById("inventoryRows");
   if (!tbody) return;
@@ -108,6 +113,7 @@ function renderInventoryTable() {
     .join("");
 }
 
+// Renders purchase rows based on the current search query.
 function renderPurchasesTable() {
   const tbody = document.getElementById("purchaseRows");
   if (!tbody) return;
@@ -127,6 +133,7 @@ function renderPurchasesTable() {
     .join("");
 }
 
+// Renders sales rows based on the current search query.
 function renderSalesTable() {
   const tbody = document.getElementById("salesRows");
   if (!tbody) return;
@@ -146,6 +153,7 @@ function renderSalesTable() {
     .join("");
 }
 
+// Binds quantity and amount inputs to auto-calculate totals for a form.
 function setupCalcForm(formId, qtyId, amountId, totalId) {
   const form = document.getElementById(formId);
   if (!form) return;
@@ -153,6 +161,7 @@ function setupCalcForm(formId, qtyId, amountId, totalId) {
   const amount = document.getElementById(amountId);
   const total = document.getElementById(totalId);
 
+  // Recalculates and updates the form total value.
   const recalc = () => {
     const val = (Number(qty.value || 0) * Number(amount.value || 0)).toFixed(2);
     total.value = val;
@@ -168,6 +177,7 @@ function setupCalcForm(formId, qtyId, amountId, totalId) {
   });
 }
 
+// Renders available package rows and related actions.
 function renderPackages() {
   const tbody = document.getElementById("packageRows");
   if (!tbody) return;
@@ -203,6 +213,7 @@ function simulatePackageSale(index) {
 }
 window.simulatePackageSale = simulatePackageSale;
 
+// Renders stock alert cards for items with low or critical stock.
 function renderStockAlerts() {
   const list = document.getElementById("stockAlertsList");
   if (!list) return;
@@ -222,6 +233,7 @@ function renderStockAlerts() {
     .join("");
 }
 
+// Initializes dashboard charts when Chart.js is available.
 function initCharts() {
   if (typeof Chart === "undefined") return;
 
@@ -254,6 +266,7 @@ function initCharts() {
   }
 }
 
+// Attaches filter and search listeners for table re-rendering.
 function bindFilters() {
   ["inventorySearch", "inventoryCategory", "inventoryStatus"].forEach((id) => {
     const el = document.getElementById(id);
@@ -264,12 +277,14 @@ function bindFilters() {
   document.getElementById("salesSearch")?.addEventListener("input", renderSalesTable);
 }
 
+// Attaches mock action handlers for demo-only buttons.
 function bindMockButtons() {
   document.querySelectorAll("[data-mock-action]").forEach((btn) => {
     btn.addEventListener("click", () => alert(`${btn.dataset.mockAction} (mock action)`));
   });
 }
 
+// Initializes shared page behaviors once the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
   setActiveNav();
   setupSidebarToggle();

@@ -10,6 +10,7 @@ const iotSensors = {
   humidity: { label: "Humidity", value: 74, unit: "%", min: 60, max: 85, drift: 1.3 }
 };
 
+// Evaluates a sensor reading and returns its health status.
 function sensorStatus(sensor) {
   const warnLow = sensor.min + (sensor.max - sensor.min) * 0.15;
   const warnHigh = sensor.max - (sensor.max - sensor.min) * 0.15;
@@ -18,12 +19,14 @@ function sensorStatus(sensor) {
   return "Normal";
 }
 
+// Maps a sensor status string to its badge CSS class.
 function statusClass(status) {
   if (status === "Critical") return "status-critical";
   if (status === "Warning") return "status-warning";
   return "status-normal";
 }
 
+// Updates a single sensor card with latest value, status, and progress.
 function updateSensorCard(id, sensor) {
   const status = sensorStatus(sensor);
   const root = document.querySelector(`[data-sensor='${id}']`);
@@ -45,11 +48,13 @@ function updateSensorCard(id, sensor) {
   if (last) last.textContent = "Just now";
 }
 
+// Applies a small randomized drift to simulate real-time sensor movement.
 function randomStep(sensor) {
   const delta = (Math.random() * 2 - 1) * sensor.drift;
   sensor.value = Number((sensor.value + delta).toFixed(2));
 }
 
+// Builds the IoT alert table from current simulated sensor conditions.
 function generateIotAlerts() {
   const list = document.getElementById("iotAlertList");
   if (!list) return;
@@ -81,11 +86,13 @@ function generateIotAlerts() {
     .join("");
 }
 
+// Updates "last updated" labels shown on the IoT dashboard.
 function updateIotMeta() {
   const updated = new Date().toLocaleTimeString();
   document.querySelectorAll(".iot-last-updated").forEach((el) => (el.textContent = `Last updated: ${updated}`));
 }
 
+// Runs one simulation cycle and refreshes all related UI sections.
 function tickIotData() {
   Object.values(iotSensors).forEach((sensor) => randomStep(sensor));
   Object.entries(iotSensors).forEach(([id, sensor]) => updateSensorCard(id, sensor));
@@ -93,6 +100,7 @@ function tickIotData() {
   updateIotMeta();
 }
 
+// Initializes historical IoT trend charts when Chart.js is available.
 function initIotHistoryCharts() {
   if (typeof Chart === "undefined") return;
   const ctx = document.getElementById("iotHistoryChart");
@@ -113,6 +121,7 @@ function initIotHistoryCharts() {
   });
 }
 
+// Starts IoT simulation and chart rendering once the DOM is ready.
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.querySelector("[data-sensor]")) return;
   tickIotData();
