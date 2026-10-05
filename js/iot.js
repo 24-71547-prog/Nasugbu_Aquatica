@@ -1,3 +1,4 @@
+// IoT simulation logic for sensor updates, status evaluation, alerts, and history charts.
 // Simulated IoT sensors. Replace this source with MQTT/WebSocket/REST API
 // feeds from ESP32/Arduino devices when backend integration is ready.
 const iotSensors = {

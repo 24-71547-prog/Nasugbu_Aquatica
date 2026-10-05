@@ -1,3 +1,4 @@
+// Core UI logic for navigation, mock data rendering, filters, forms, and dashboard charts.
 // Shared mock datasets for all business modules.
 const appData = {
   inventory: [
