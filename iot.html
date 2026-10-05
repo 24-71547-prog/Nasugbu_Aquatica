@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Monitoring</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+<body data-page="iot">
+  <div class="app-shell">
+    <aside class="sidebar p-3" id="appSidebar">
+      <div class="brand d-flex justify-content-between align-items-center pb-3 mb-3">
+        <div>
+          <h5 class="mb-0 text-white">Nasugbu Aquatica</h5>
+          <small class="text-info">Management & IoT System</small>
+        </div>
+        <button class="btn btn-sm btn-outline-light d-lg-none" id="sidebarClose"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <nav class="nav flex-column">
+        <a class="nav-link" data-nav="dashboard" href="dashboard.html"><i class="bi bi-grid-1x2 me-2"></i>Dashboard</a>
+        <a class="nav-link" data-nav="iot" href="iot.html"><i class="bi bi-broadcast me-2"></i>IoT Monitoring</a>
+        <a class="nav-link" data-nav="inventory" href="inventory.html"><i class="bi bi-box-seam me-2"></i>Live Fish Inventory</a>
+        <a class="nav-link" data-nav="inventory" href="inventory.html"><i class="bi bi-bag-check me-2"></i>Fish & Product Management</a>
+        <a class="nav-link" data-nav="purchases" href="purchases.html"><i class="bi bi-cart-plus me-2"></i>Purchases</a>
+        <a class="nav-link" data-nav="sales" href="sales.html"><i class="bi bi-currency-exchange me-2"></i>Sales</a>
+        <a class="nav-link" data-nav="packages" href="packages.html"><i class="bi bi-box2-heart me-2"></i>Packages / Bundles</a>
+        <a class="nav-link" data-nav="stock-alerts" href="stock-alerts.html"><i class="bi bi-exclamation-triangle me-2"></i>Stock Alerts</a>
+        <a class="nav-link" data-nav="reports" href="reports.html"><i class="bi bi-bar-chart-line me-2"></i>Reports</a>
+        <a class="nav-link" data-nav="settings" href="#"><i class="bi bi-gear me-2"></i>Settings</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar p-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-outline-secondary d-lg-none" id="sidebarToggle"><i class="bi bi-list"></i></button>
+          <h5 class="mb-0">IoT Monitoring</h5>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-light position-relative">
+            <i class="bi bi-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger stock-alert-count">0</span>
+          </button>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-circle me-1"></i>Owner</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Preferences</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="p-3 p-lg-4">
+<div class="row g-3 mb-3">
+  <div class="col-lg-8">
+    <div class="card p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">Sensor History</h6>
+        <div class="d-flex gap-2">
+          <select class="form-select form-select-sm"><option>Water pH</option><option>Water Temperature</option><option>Dissolved Oxygen</option><option>Water Level</option></select>
+          <select class="form-select form-select-sm"><option>Today</option><option>This Week</option><option>This Month</option></select>
+        </div>
+      </div>
+      <div style="height: 300px" class="mt-3"><canvas id="iotHistoryChart"></canvas></div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card p-3 h-100">
+      <h6>Sensor Status</h6>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between"><span>Water pH Sensor</span><span class="badge status-normal">Online</span></li>
+        <li class="list-group-item d-flex justify-content-between"><span>Temperature Sensor</span><span class="badge status-normal">Online</span></li>
+        <li class="list-group-item d-flex justify-content-between"><span>Dissolved Oxygen Sensor</span><span class="badge status-warning">Warning</span></li>
+        <li class="list-group-item d-flex justify-content-between"><span>Level Sensor</span><span class="badge status-normal">Online</span></li>
+      </ul>
+      <small class="text-secondary mt-2"><span class="live-dot">●</span> Live Monitoring <span class="iot-last-updated ms-1">Last updated: Just now</span></small>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6 col-xl-3" data-sensor="ph"><div class="card p-3"><small class="text-muted">Water pH Level</small><div class="sensor-reading sensor-value">7.2</div><small>Normal: 6.8 - 7.8</small><div class="sensor-status my-2"></div><div class="progress"><div class="progress-bar" style="width:50%"></div></div><small class="text-secondary sensor-updated">Just now</small></div></div>
+  <div class="col-md-6 col-xl-3" data-sensor="waterTemp"><div class="card p-3"><small class="text-muted">Water Temperature</small><div class="sensor-reading sensor-value">27.5 °C</div><small>Normal: 26.0 - 29.0 °C</small><div class="sensor-status my-2"></div><div class="progress"><div class="progress-bar" style="width:50%"></div></div><small class="text-secondary sensor-updated">Just now</small></div></div>
+  <div class="col-md-6 col-xl-3" data-sensor="oxygen"><div class="card p-3"><small class="text-muted">Dissolved Oxygen</small><div class="sensor-reading sensor-value">6.8 mg/L</div><small>Normal: 6.0 - 8.5 mg/L</small><div class="sensor-status my-2"></div><div class="progress"><div class="progress-bar" style="width:50%"></div></div><small class="text-secondary sensor-updated">Just now</small></div></div>
+  <div class="col-md-6 col-xl-3" data-sensor="waterLevel"><div class="card p-3"><small class="text-muted">Water Level</small><div class="sensor-reading sensor-value">82%</div><small>Normal: 70% - 95%</small><div class="sensor-status my-2"></div><div class="progress"><div class="progress-bar" style="width:50%"></div></div><small class="text-secondary sensor-updated">Just now</small></div></div>
+</div>
+
+<div class="card p-3">
+  <h6>Historical Readings Table</h6>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead><tr><th>Date/Time</th><th>Sensor</th><th>Value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>2026-10-05 08:30</td><td>Water pH</td><td>7.2</td><td><span class="badge status-normal">Normal</span></td></tr>
+        <tr><td>2026-10-05 08:30</td><td>Water Temperature</td><td>27.5 °C</td><td><span class="badge status-warning">Warning</span></td></tr>
+        <tr><td>2026-10-05 08:30</td><td>Dissolved Oxygen</td><td>6.8 mg/L</td><td><span class="badge status-critical">Critical</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/iot.js"></script>
+</body>
+</html>
